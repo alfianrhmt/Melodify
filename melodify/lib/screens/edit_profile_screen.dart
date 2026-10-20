@@ -72,6 +72,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       return;
     }
 
+    if (username.contains(' ')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Username tidak boleh mengandung spasi.')),
+      );
+      return;
+    }
+
     if (!email.contains('@') || !email.contains('.')) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Format email belum valid.')),
@@ -127,33 +134,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 24),
               const Text(
                 'Personal Information',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-
               TextField(
                 controller: nameController,
                 decoration: decoration('Full Name', Icons.person_outline),
               ),
               const SizedBox(height: 16),
-
               TextField(
                 controller: usernameController,
                 decoration: decoration('Username', Icons.alternate_email),
               ),
               const SizedBox(height: 16),
-
               TextField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: decoration('Email', Icons.email_outlined),
               ),
               const SizedBox(height: 16),
-
               TextField(
                 controller: bioController,
                 maxLines: 3,
@@ -161,7 +163,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 decoration: decoration('Bio', Icons.edit_note),
               ),
               const SizedBox(height: 12),
-
               TextField(
                 controller: avatarController,
                 keyboardType: TextInputType.url,
@@ -172,7 +173,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               const SizedBox(height: 28),
-
               SizedBox(
                 width: double.infinity,
                 height: 52,
