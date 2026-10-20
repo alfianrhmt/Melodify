@@ -1,154 +1,175 @@
-# 🎵 Melodify — Spotify Clone
+# Melodify (Spotify Clone)
 
-Aplikasi streaming musik mobile berbasis Flutter yang mereplikasi tampilan dan fitur utama Spotify.
-
-**Dibuat untuk:** UTS Pemrograman Aplikasi Bergerak — Sistem Informasi 2026/2027
+Aplikasi streaming musik mobile berbasis Flutter dengan backend REST API Node.js dan database PostgreSQL. Dibuat sebagai replika fitur inti Spotify untuk tugas pemrograman aplikasi bergerak.
 
 ---
 
-## 👥 Anggota Kelompok
+## Anggota Kelompok
 
-| No | Nama | NIM |
-|----|------|-----|
-| 1  | [Nama Anggota 1] | [NIM] |
-| 2  | [Nama Anggota 2] | [NIM] |
-| 3  | [Nama Anggota 3] | [NIM] |
-
----
-
-## 📱 Tentang Aplikasi
-
-| | |
-|---|---|
-| **Aplikasi Asli** | Spotify |
-| **Nama Plesetkan** | Melodify |
-| **Versi** | 1.0.0 |
+| No | Nama | NIM | Peran / Pembagian Tugas |
+|:--:|------|:---:|-------------------------|
+| 1  | Mohammad Alfian Rahmatullah | 24051214153 | Struktur & Fondasi Awal Aplikasi |
+| 2  | Muhammad Nashrul Aziz | 24051214159 | Desain Logo, Home Screen, Player Card |
+| 3  | Najwa Fatimah Azzahra | 24051214158 | Halaman Search & Playlist |
+| 4  | Audi Pratiwi Naura | 24051214145 | Halaman Auth (Login), Profile & Edit Profile |
+| 5  | Michal Rivaldo Fresca | 24051214167 | Backend API & Database |
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-| Layer | Teknologi |
-|-------|-----------|
-| Frontend | Flutter (Dart) |
-| Backend API | Node.js + Express |
-| Database | PostgreSQL |
-| Auth | JWT (JSON Web Token) |
-| State Management | Provider |
+- **Frontend (Mobile):** Flutter (Dart), Provider (State Management), audioplayers, shared_preferences, http
+- **Backend (API):** Node.js, Express.js
+- **Database:** PostgreSQL
+- **Autentikasi:** JWT (JSON Web Token) & bcryptjs
 
 ---
 
-## 📂 Struktur Proyek
+## Fitur Utama
 
-```
-Spotify/
-├── melodify/               # Flutter frontend
+- **Autentikasi & Akun:** Register, login, dan simpan sesi login otomatis via token JWT.
+- **Profil User:** Lihat info akun serta edit profil (nama, username, bio, dan URL avatar).
+- **Home & Beranda:** Banner sapaan, daftar lagu terpopuler, dan album.
+- **Pencarian:** Cari lagu berdasarkan judul atau nama artis.
+- **Pemutar Musik (Audio Player):**
+  - Kontrol play, pause, seekbar durasi, previous, dan next track.
+  - Antrean putar lagu otomatis (queue).
+  - Mini player persisten di bagian bawah layar saat navigasi menu.
+  - Streaming audio lancar via endpoint proxy backend (bebas batasan CORS).
+- **Koleksi & Playlist (Library):**
+  - Like & unlike lagu favorit (halaman Liked Songs).
+  - Buat, edit nama/deskripsi, dan hapus playlist.
+  - Tambah dan hapus lagu dari dalam playlist.
+
+---
+
+## Struktur Folder
+
+```text
+Melodify/
+├── melodify/                  # Aplikasi Flutter
 │   └── lib/
-│       ├── main.dart
-│       ├── constants.dart
-│       ├── models/         # Song, Playlist, User
-│       ├── services/       # API calls
-│       ├── providers/      # State management
-│       ├── screens/        # Halaman UI
-│       └── widgets/        # Komponen reusable
-└── melodify-backend/       # Node.js backend
-    ├── index.js            # Entry point
-    ├── db.js               # Koneksi database
-    ├── database.sql        # Schema + seed data
-    ├── routes/             # Auth, Songs, Playlists, Artists
-    └── middleware/         # JWT auth middleware
+│       ├── constants.dart     # Pengaturan URL Backend API
+│       ├── main.dart          # Entry point Flutter
+│       ├── models/            # Model data (Song, Playlist, User, Artist)
+│       ├── providers/         # State management (Auth, Audio, Playlist)
+│       ├── screens/           # Halaman UI (Auth, Home, Player, Library, Profile)
+│       ├── services/          # Pemanggilan HTTP API ke backend
+│       └── widgets/           # Komponen UI reusable (MiniPlayer, SongTile, dll)
+│
+└── melodify-backend/          # REST API Node.js
+    ├── database.sql           # Schema tabel & seed data PostgreSQL
+    ├── db.js                  # Koneksi pg pool database
+    ├── index.js               # Entry point Express server
+    ├── add-song.js            # Skrip CLI untuk tambah lagu cepat
+    ├── middleware/            # Middleware verifikasi token JWT
+    └── routes/                # Router endpoint (auth, songs, playlists, artists)
 ```
 
 ---
 
-## ✨ Fitur Utama
+## Cara Menjalankan
 
-- 🔐 **Register & Login** — autentikasi dengan JWT
-- 🏠 **Home Screen** — sapaan, lagu populer, recently played
-- 🔍 **Search** — cari lagu berdasarkan judul / artis
-- 📚 **Library** — kelola playlist pribadi
-- ▶️ **Music Player** — kontrol play/pause, next, previous, seek, queue
-- 🎵 **Mini Player** — player kecil persisten di bottom bar
-- ❤️ **Like Lagu** — tandai lagu favorit
-- 📋 **Playlist** — buat, edit, hapus playlist, tambah/hapus lagu
+### 1. Persiapan Database (PostgreSQL)
 
----
-
-## 🚀 Cara Menjalankan Proyek
-
-### 1. Setup Database (PostgreSQL)
-
-```bash
-# Buka psql dan jalankan script database
-psql -U postgres -f melodify-backend/database.sql
-```
-
-### 2. Setup & Jalankan Backend
-
-```bash
-cd melodify-backend
-
-# Salin file konfigurasi
-cp .env.example .env
-# Edit .env sesuai konfigurasi database kamu
-
-# Install dependencies
-npm install
-
-# Jalankan server
-npm start
-# Server berjalan di http://localhost:3000
-```
-
-### 3. Jalankan Flutter App
-
-```bash
-cd melodify
-
-# Install dependencies
-flutter pub get
-
-# Jalankan di emulator/device
-flutter run
-```
-
-> **Catatan:** Jika menggunakan device fisik, ubah `baseUrl` di `lib/constants.dart` menjadi IP komputer kamu, contoh: `http://192.168.1.5:3000/api`
+1. Pastikan PostgreSQL sudah terpasang dan berjalan di perangkat.
+2. Buat database baru bernama `melodify_db`:
+   ```sql
+   CREATE DATABASE melodify_db;
+   ```
+3. Eksekusi file `database.sql` untuk membuat tabel dan data awal:
+   ```bash
+   psql -U postgres -d melodify_db -f melodify-backend/database.sql
+   ```
+   *(Atau buka dan jalankan isi file `database.sql` menggunakan pgAdmin / DBeaver).*
 
 ---
 
-## 🌐 API Endpoints
+### 2. Menjalankan Backend (Node.js)
 
-| Method | Endpoint | Keterangan | Auth |
-|--------|----------|------------|------|
-| POST | `/api/auth/register` | Daftar akun baru | ❌ |
-| POST | `/api/auth/login` | Login | ❌ |
-| GET | `/api/songs` | Semua lagu | ❌ |
-| GET | `/api/songs/search?q=` | Cari lagu | ❌ |
-| POST | `/api/songs/:id/play` | Increment play count | ❌ |
-| POST | `/api/songs/:id/like` | Like / unlike lagu | ✅ |
-| GET | `/api/songs/liked/all` | Lagu favorit user | ✅ |
-| GET | `/api/playlists` | Playlist milik user | ✅ |
-| POST | `/api/playlists` | Buat playlist baru | ✅ |
-| GET | `/api/playlists/:id` | Detail playlist | ✅ |
-| PUT | `/api/playlists/:id` | Edit playlist | ✅ |
-| DELETE | `/api/playlists/:id` | Hapus playlist | ✅ |
-| POST | `/api/playlists/:id/songs` | Tambah lagu ke playlist | ✅ |
-| DELETE | `/api/playlists/:id/songs/:songId` | Hapus lagu dari playlist | ✅ |
-| GET | `/api/artists` | Semua artis | ❌ |
-| GET | `/api/artists/:id` | Detail artis | ❌ |
+1. Masuk ke folder backend:
+   ```bash
+   cd melodify-backend
+   ```
+2. Buat file `.env` di dalam folder `melodify-backend` dan sesuaikan kredensial database kamu:
+   ```env
+   PORT=3000
+   JWT_SECRET=melodify_jwt_super_secret_key_2026
+
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_NAME=melodify_db
+   DB_USER=postgres
+   DB_PASSWORD=password_postgres_kamu
+   ```
+3. Install package dan jalankan server:
+   ```bash
+   npm install
+   npm start
+   ```
+   Server default berjalan di `http://localhost:3000`.
+
+> **Catatan:** Kamu bisa menambahkan lagu baru langsung lewat terminal menggunakan perintah:
+> ```bash
+> node add-song.js "Judul Lagu" "Nama Artis" "https://link-audio.mp3" "https://link-cover.jpg" 210
+> ```
 
 ---
 
-## 🎬 Video Presentasi
+### 3. Menjalankan Frontend (Flutter)
 
-[Link YouTube — Coming Soon]
+1. Masuk ke folder Flutter:
+   ```bash
+   cd melodify
+   ```
+2. Atur URL API di `lib/constants.dart` sesuai target perangkat yang dipakai:
+   - **Emulator Android:** `http://10.0.2.2:3000/api`
+   - **HP Fisik (USB Debugging / Wi-Fi):** `http://IP_LAPTOP:3000/api` *(contoh: `http://192.168.1.10:3000/api`)*
+   - **Chrome / Web / Windows:** `http://localhost:3000/api`
+3. Unduh dependencies dan jalankan aplikasi:
+   ```bash
+   flutter pub get
+   flutter run
+   ```
 
 ---
 
-## 📄 Pembagian Tugas
+## Daftar Endpoint API
 
-| Nama | Tugas |
-|------|-------|
-| [Anggota 1] | Flutter UI (Home, Player, Search) |
-| [Anggota 2] | Backend API (Auth, Songs) |
-| [Anggota 3] | Backend API (Playlists) + Database |
+### Autentikasi & Akun (`/api/auth`)
+| Method | Endpoint | Deskripsi | Auth |
+|:---:|---|---|:---:|
+| POST | `/api/auth/register` | Pendaftaran akun user baru | Tidak |
+| POST | `/api/auth/login` | Login dan menerima token JWT | Tidak |
+| GET | `/api/auth/me` | Ambil data profil user yang sedang login | Ya |
+| PUT | `/api/auth/profile` | Update profil (nama, bio, foto avatar) | Ya |
+
+### Lagu (`/api/songs`)
+| Method | Endpoint | Deskripsi | Auth |
+|:---:|---|---|:---:|
+| GET | `/api/songs` | Ambil seluruh daftar lagu | Tidak |
+| POST | `/api/songs` | Tambah lagu baru | Tidak |
+| GET | `/api/songs/search?q=` | Cari lagu / artis berdasarkan kata kunci | Tidak |
+| GET | `/api/songs/liked/all` | Ambil semua lagu yang di-like user | Ya |
+| GET | `/api/songs/:id` | Ambil detail satu lagu | Tidak |
+| GET | `/api/songs/:id/stream` | Stream audio via proxy chunk backend | Tidak |
+| POST | `/api/songs/:id/play` | Tambah total pemutaran lagu | Tidak |
+| POST | `/api/songs/:id/like` | Like atau unlike lagu | Ya |
+
+### Playlist (`/api/playlists`)
+| Method | Endpoint | Deskripsi | Auth |
+|:---:|---|---|:---:|
+| GET | `/api/playlists` | Ambil daftar playlist milik user | Ya |
+| POST | `/api/playlists` | Buat playlist baru | Ya |
+| GET | `/api/playlists/:id` | Ambil detail playlist beserta daftar lagunya | Ya |
+| PUT | `/api/playlists/:id` | Ubah nama atau deskripsi playlist | Ya |
+| DELETE | `/api/playlists/:id` | Hapus playlist | Ya |
+| POST | `/api/playlists/:id/songs` | Masukkan lagu ke playlist | Ya |
+| DELETE | `/api/playlists/:id/songs/:songId` | Hapus lagu dari playlist | Ya |
+
+### Artis & Album (`/api/artists`)
+| Method | Endpoint | Deskripsi | Auth |
+|:---:|---|---|:---:|
+| GET | `/api/artists` | Ambil daftar seluruh artis | Tidak |
+| GET | `/api/artists/albums/all` | Ambil seluruh daftar album | Tidak |
+| GET | `/api/artists/:id` | Detail artis beserta daftar lagu karyanya | Tidak |
